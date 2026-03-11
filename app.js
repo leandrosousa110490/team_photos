@@ -77,6 +77,15 @@ function startPulseFeed(list, updates = LIVE_UPDATES, intervalMs = 2300) {
 }
 
 const LOCAL_SUBMISSION_KEY = "edgeframe-local-submissions";
+const DEFAULT_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDA1soYGzIFjntBuv08hA9NXoSDNZ5pUrk",
+  authDomain: "alyssa-c95c3.firebaseapp.com",
+  projectId: "alyssa-c95c3",
+  storageBucket: "alyssa-c95c3.firebasestorage.app",
+  messagingSenderId: "659097207470",
+  appId: "1:659097207470:web:5f3f64c86e49d55b8ce33f",
+  measurementId: "G-ZYPQ6C3VTL"
+};
 
 function getPhotoUrl(seed, width = 1200, height = 900) {
   return `https://picsum.photos/seed/${encodeURIComponent(seed)}/${width}/${height}`;
@@ -142,10 +151,15 @@ function readFirebaseConfig() {
   const candidates = [
     window.EDGEFRAME_FIREBASE_CONFIG,
     window.FIREBASE_WEB_CONFIG,
-    window.FIREBASE_CONFIG
+    window.FIREBASE_CONFIG,
+    DEFAULT_FIREBASE_CONFIG
   ].map(parseIfString).filter(Boolean);
 
-  return candidates[0] || null;
+  const resolved = candidates[0] || null;
+  if (resolved && !window.EDGEFRAME_FIREBASE_CONFIG) {
+    window.EDGEFRAME_FIREBASE_CONFIG = resolved;
+  }
+  return resolved;
 }
 
 function getFirestoreDb() {
