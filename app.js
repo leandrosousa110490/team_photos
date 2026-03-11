@@ -122,6 +122,31 @@ function setImageWithFallback(img, src, fallbackLabel) {
 
 let firebaseChecked = false;
 let firestoreDb = null;
+let firebaseFailureReason = "";
+
+function readFirebaseConfig() {
+  const parseIfString = (value) => {
+    if (!value) {
+      return null;
+    }
+    if (typeof value === "string") {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return null;
+      }
+    }
+    return typeof value === "object" ? value : null;
+  };
+
+  const candidates = [
+    window.EDGEFRAME_FIREBASE_CONFIG,
+    window.FIREBASE_WEB_CONFIG,
+    window.FIREBASE_CONFIG
+  ].map(parseIfString).filter(Boolean);
+
+  return candidates[0] || null;
+}
 
 function getFirestoreDb() {
   if (firestoreDb) {
@@ -133,12 +158,28 @@ function getFirestoreDb() {
 
   firebaseChecked = true;
 
-  const config = window.EDGEFRAME_FIREBASE_CONFIG;
-  if (!config || !config.apiKey || String(config.apiKey).includes("REPLACE")) {
+  const config = readFirebaseConfig();
+  const apiKey = String(config?.apiKey || "").trim();
+  const authDomain = String(config?.authDomain || "").trim();
+  const projectId = String(config?.projectId || "").trim();
+
+  if (!config) {
+    firebaseFailureReason = "Missing Firebase config object. Add window.EDGEFRAME_FIREBASE_CONFIG in firebase/firebase-web-config.js.";
+    return null;
+  }
+
+  const missing = [];
+  const invalidKey = (value) => !value || /REPLACE|YOUR_|<|>/i.test(String(value));
+  if (invalidKey(apiKey)) missing.push("apiKey");
+  if (invalidKey(authDomain)) missing.push("authDomain");
+  if (invalidKey(projectId)) missing.push("projectId");
+  if (missing.length) {
+    firebaseFailureReason = `Firebase web config is incomplete: ${missing.join(", ")}.`;
     return null;
   }
 
   if (!window.firebase || typeof window.firebase.initializeApp !== "function") {
+    firebaseFailureReason = "Firebase SDK did not load on this page.";
     return null;
   }
 
@@ -147,8 +188,10 @@ function getFirestoreDb() {
       window.firebase.initializeApp(config);
     }
     firestoreDb = window.firebase.firestore();
+    firebaseFailureReason = "";
     return firestoreDb;
   } catch (error) {
+    firebaseFailureReason = error?.message || "Firebase initialization failed.";
     console.error("Firebase initialization failed:", error);
     return null;
   }
@@ -189,7 +232,11 @@ async function saveSubmission(collectionName, payload) {
       createdAtServer: null
     });
     localStorage.setItem(LOCAL_SUBMISSION_KEY, JSON.stringify(safeExisting.slice(-200)));
-    return { stored: "local", reason: db ? "firebase-write-failed" : "firebase-not-configured" };
+    return {
+      stored: "local",
+      reason: db ? "firebase-write-failed" : "firebase-not-configured",
+      detail: firebaseFailureReason
+    };
   } catch (error) {
     console.error("Local submission fallback failed:", error);
     throw new Error("Unable to save submission.");
@@ -1509,7 +1556,7 @@ function initQuoteModal() {
         status.className = "quote-status is-warning";
         status.textContent = result.reason === "firebase-write-failed"
           ? "Saved on this device only. Firebase write was blocked (check Firestore rules)."
-          : "Saved on this device only. Add Firebase web config to send requests to Firestore.";
+          : `Saved on this device only. ${result.detail || "Add Firebase web config to send requests to Firestore."}`;
       }
     } catch {
       status.className = "quote-status is-error";
