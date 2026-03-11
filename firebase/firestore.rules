@@ -1,0 +1,120 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function hasOnlyFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function text(value, min, max) {
+      return value is string && value.size() >= min && value.size() <= max;
+    }
+
+    function optionalText(value, max) {
+      return value is string && value.size() <= max;
+    }
+
+    function hasContactMethod() {
+      return text(request.resource.data.email, 5, 140)
+        || text(request.resource.data.phone, 7, 30);
+    }
+
+    function hasCommonFields() {
+      return hasOnlyFields([
+        "requestType",
+        "fullName",
+        "email",
+        "phone",
+        "eventType",
+        "eventDate",
+        "venue",
+        "coverageHours",
+        "budgetRange",
+        "message",
+        "needs",
+        "preferredContact",
+        "source",
+        "page",
+        "contactName",
+        "createdAtClient",
+        "createdAtServer"
+      ])
+      && text(request.resource.data.source, 1, 80)
+      && text(request.resource.data.page, 1, 40)
+      && text(request.resource.data.contactName, 1, 120)
+      && text(request.resource.data.createdAtClient, 10, 60)
+      && (request.resource.data.createdAtServer == null || request.resource.data.createdAtServer is timestamp);
+    }
+
+    match /quote_requests/{docId} {
+      allow create: if hasCommonFields()
+        && request.resource.data.requestType == "quote"
+        && text(request.resource.data.fullName, 2, 80)
+        && text(request.resource.data.email, 5, 140)
+        && text(request.resource.data.phone, 7, 30)
+        && text(request.resource.data.eventType, 2, 40)
+        && text(request.resource.data.eventDate, 8, 40)
+        && text(request.resource.data.venue, 2, 180)
+        && request.resource.data.coverageHours is number
+        && request.resource.data.coverageHours >= 1
+        && request.resource.data.coverageHours <= 16
+        && text(request.resource.data.budgetRange, 3, 40)
+        && optionalText(request.resource.data.message, 2000)
+        && request.resource.data.needs is list
+        && request.resource.data.needs.size() <= 12
+        && request.resource.data.preferredContact in ["phone", "email", "text"];
+
+      allow read, update, delete: if false;
+    }
+
+    match /question_requests/{docId} {
+      allow create: if hasCommonFields()
+        && request.resource.data.requestType == "questions"
+        && text(request.resource.data.fullName, 2, 80)
+        && hasContactMethod()
+        && text(request.resource.data.message, 2, 2000)
+        && optionalText(request.resource.data.eventType, 40)
+        && optionalText(request.resource.data.eventDate, 40)
+        && optionalText(request.resource.data.venue, 180)
+        && request.resource.data.coverageHours is number
+        && request.resource.data.coverageHours >= 0
+        && request.resource.data.coverageHours <= 16
+        && optionalText(request.resource.data.budgetRange, 40)
+        && request.resource.data.needs is list
+        && request.resource.data.needs.size() <= 12
+        && request.resource.data.preferredContact in ["phone", "email", "text"];
+
+      allow read, update, delete: if false;
+    }
+
+    match /estimate_requests/{docId} {
+      allow create: if request.resource.data.keys().hasOnly([
+          "sessionType",
+          "coverageHours",
+          "deliverable",
+          "month",
+          "estimateText",
+          "availability",
+          "source",
+          "page",
+          "contactName",
+          "createdAtClient",
+          "createdAtServer"
+        ])
+        && text(request.resource.data.sessionType, 2, 40)
+        && request.resource.data.coverageHours is number
+        && request.resource.data.coverageHours >= 1
+        && request.resource.data.coverageHours <= 16
+        && text(request.resource.data.deliverable, 2, 40)
+        && text(request.resource.data.month, 3, 10)
+        && text(request.resource.data.estimateText, 2, 40)
+        && text(request.resource.data.availability, 2, 40)
+        && text(request.resource.data.source, 1, 80)
+        && text(request.resource.data.page, 1, 40)
+        && text(request.resource.data.contactName, 1, 120)
+        && text(request.resource.data.createdAtClient, 10, 60)
+        && (request.resource.data.createdAtServer == null || request.resource.data.createdAtServer is timestamp);
+
+      allow read, update, delete: if false;
+    }
+  }
+}

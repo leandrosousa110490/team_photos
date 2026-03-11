@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EdgeFrame Studio | Book</title>
+  <meta name="description" content="Book wedding, party, family, kids, sports, and event photography with a dynamic estimate tool." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23ff5a1f'/%3E%3Cstop offset='1' stop-color='%2300a6a6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='24' cy='24' r='22' fill='url(%23g)'/%3E%3Ctext x='24' y='30' font-size='18' font-family='Arial' fill='white' text-anchor='middle'%3EEF%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="book" class="accent-shift">
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="EdgeFrame Home">
+        <span class="brand-mark">EF</span>
+        <span class="brand-text">EdgeFrame Studio</span>
+      </a>
+      <div class="nav-actions">
+        <a class="toolbar-icon" href="tel:+13058989791" aria-label="Call Alyssa Sousa">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.1 11.1 0 0 0 3.49.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.1 11.1 0 0 0 .56 3.49 1 1 0 0 1-.24 1.01l-2.2 2.29z"/></svg>
+        </a>
+        <a class="toolbar-icon" href="mailto:leoisdabest@yahoo.com" aria-label="Email Alyssa Sousa">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5zm2 .5v.38L12 11.2l7-4.82V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1m14 2.82-6.43 4.43a1 1 0 0 1-1.14 0L5 8.82V18a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/></svg>
+        </a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mainNav">Menu</button>
+      </div>
+      <nav id="mainNav" class="main-nav">
+        <a href="index.html" data-nav="home">Home</a>
+        <a href="gallery.html" data-nav="gallery">Gallery</a>
+        <a href="services.html" data-nav="services">Services</a>
+        <a href="results.html" data-nav="results">Results</a>
+        <a href="book.html" data-nav="book">Book</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero reveal">
+      <div class="container">
+        <p class="eyebrow">Book Your Coverage</p>
+        <h1>Build your event plan, estimate budget, and lock your date.</h1>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container book-layout">
+        <div class="book-panel reveal">
+          <p class="eyebrow">Booking Estimator</p>
+          <h2>Configure your shoot</h2>
+          <form id="bookingForm" class="booking-form">
+            <label>
+              Session Type
+              <select id="sportSelect" required>
+                <option value="wedding">Wedding</option>
+                <option value="party">Party / Celebration</option>
+                <option value="family">Family Session</option>
+                <option value="kids">Kids Session</option>
+                <option value="sports">Sports Event</option>
+                <option value="corporate">Corporate Event</option>
+              </select>
+            </label>
+            <label>
+              Coverage Hours
+              <input id="hoursInput" type="range" min="2" max="12" value="4" />
+              <span class="range-value"><strong id="hoursValue">4</strong> hours</span>
+            </label>
+            <label>
+              Deliverables
+              <select id="deliverableSelect" required>
+                <option value="standard">Standard Gallery</option>
+                <option value="social">Social Rapid Set</option>
+                <option value="full">Full Media Package</option>
+              </select>
+            </label>
+            <label>
+              Event Month
+              <select id="monthSelect">
+                <option value="jan">January</option>
+                <option value="feb">February</option>
+                <option value="mar">March</option>
+                <option value="apr">April</option>
+                <option value="may">May</option>
+                <option value="jun">June</option>
+                <option value="jul">July</option>
+                <option value="aug" selected>August</option>
+                <option value="sep">September</option>
+                <option value="oct">October</option>
+                <option value="nov">November</option>
+                <option value="dec">December</option>
+              </select>
+            </label>
+            <button class="btn btn-primary" type="submit">Generate Estimate</button>
+          </form>
+        </div>
+
+        <aside class="estimate-card reveal" id="estimateCard" aria-live="polite">
+          <p class="estimate-label">Estimated Investment</p>
+          <p class="estimate-price" id="estimatePrice">$1,050</p>
+          <p class="estimate-meta" id="estimateMeta">Wedding • 4 hours • Standard Gallery</p>
+          <p class="availability-meter" id="availabilityMeter">Availability: High</p>
+          <ul class="estimate-list">
+            <li>Professional action + portrait coverage</li>
+            <li>Color-graded, publication-ready edits</li>
+            <li>Private online gallery + download access</li>
+            <li>Pre-shoot style consultation call</li>
+          </ul>
+          <button class="btn btn-secondary" id="quoteTrigger" type="button" data-open-quote-modal>Request Official Quote</button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <article class="owner-contact-card reveal">
+          <p class="eyebrow">Direct Contact</p>
+          <h2>Alyssa Sousa</h2>
+          <p class="owner-contact-note">Book wedding, party, family, kids, and sports photography directly with our lead photographer and coordinator.</p>
+          <div class="owner-contact-links">
+            <a class="owner-contact-link" href="tel:+13058989791">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.1 11.1 0 0 0 3.49.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.1 11.1 0 0 0 .56 3.49 1 1 0 0 1-.24 1.01l-2.2 2.29z"/></svg>
+              <span>305-898-9791</span>
+            </a>
+            <a class="owner-contact-link" href="mailto:leoisdabest@yahoo.com">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5zm2 .5v.38L12 11.2l7-4.82V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1m14 2.82-6.43 4.43a1 1 0 0 1-1.14 0L5 8.82V18a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/></svg>
+              <span>leoisdabest@yahoo.com</span>
+            </a>
+          </div>
+          <button class="btn btn-primary owner-contact-cta" type="button" data-open-quote-modal>Send Questions or Request a Custom Plan</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section-dark">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">FAQ</p>
+          <h2>Quick answers before you book.</h2>
+        </div>
+        <div class="faq-list reveal" id="faqList">
+          <article class="faq-item">
+            <button class="faq-question" type="button">How fast do we receive final images?</button>
+            <div class="faq-answer">Most projects are delivered in 24-48 hours. Live social drops are available during events.</div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" type="button">Can you handle multiple venues in one weekend?</button>
+            <div class="faq-answer">Yes. We can coordinate multi-location timelines and organize galleries by family, guest group, or event segment.</div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" type="button">Do you provide sponsor-branded versions?</button>
+            <div class="faq-answer">Yes. Branded overlays, watermark variants, and campaign-ready exports are part of advanced packages.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>EdgeFrame Photography Studio</p>
+      <div class="footer-toolbar" aria-label="Contact toolbar">
+        <a class="toolbar-icon toolbar-icon-light" href="tel:+13058989791" aria-label="Call Alyssa Sousa">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.1 11.1 0 0 0 3.49.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.1 11.1 0 0 0 .56 3.49 1 1 0 0 1-.24 1.01l-2.2 2.29z"/></svg>
+        </a>
+        <a class="toolbar-icon toolbar-icon-light" href="mailto:leoisdabest@yahoo.com" aria-label="Email Alyssa Sousa">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5zm2 .5v.38L12 11.2l7-4.82V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1m14 2.82-6.43 4.43a1 1 0 0 1-1.14 0L5 8.82V18a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/></svg>
+        </a>
+      </div>
+      <div class="footer-links">
+        <a href="gallery.html">Gallery</a>
+        <a href="services.html">Services</a>
+        <a href="results.html">Results</a>
+        <a href="book.html">Book</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="firebase/firebase-web-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

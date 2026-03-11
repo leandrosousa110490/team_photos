@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EdgeFrame Studio | Weddings, Family, Events & Sports Photography</title>
+  <meta name="description" content="Premium photography for weddings, parties, family, kids, sports, and corporate events with fast digital delivery." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23ff5a1f'/%3E%3Cstop offset='1' stop-color='%2300a6a6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='24' cy='24' r='22' fill='url(%23g)'/%3E%3Ctext x='24' y='30' font-size='18' font-family='Arial' fill='white' text-anchor='middle'%3EEF%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="home" class="accent-shift">
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="EdgeFrame Home">
+        <span class="brand-mark">EF</span>
+        <span class="brand-text">EdgeFrame Studio</span>
+      </a>
+      <div class="nav-actions">
+        <a class="toolbar-icon" href="tel:+13058989791" aria-label="Call Alyssa Sousa">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.1 11.1 0 0 0 3.49.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.1 11.1 0 0 0 .56 3.49 1 1 0 0 1-.24 1.01l-2.2 2.29z"/></svg>
+        </a>
+        <a class="toolbar-icon" href="mailto:leoisdabest@yahoo.com" aria-label="Email Alyssa Sousa">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5zm2 .5v.38L12 11.2l7-4.82V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1m14 2.82-6.43 4.43a1 1 0 0 1-1.14 0L5 8.82V18a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/></svg>
+        </a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mainNav">Menu</button>
+      </div>
+      <nav id="mainNav" class="main-nav">
+        <a href="index.html" data-nav="home">Home</a>
+        <a href="gallery.html" data-nav="gallery">Gallery</a>
+        <a href="services.html" data-nav="services">Services</a>
+        <a href="results.html" data-nav="results">Results</a>
+        <a href="book.html" data-nav="book">Book</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero-home">
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
+      <div class="hero-overlay"></div>
+      <div class="hero-atmosphere" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Full-Service Photography Studio</p>
+          <h1>Capture weddings, parties, family milestones, kids moments, and live events beautifully.</h1>
+          <p class="hero-subtitle">Great images preserve the memories that matter most. We document weddings, parties, family sessions, kids milestones, sports events, and corporate gatherings with a polished, story-driven style.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="book.html">Start Booking</a>
+            <a class="btn btn-secondary" href="gallery.html">View Live Gallery</a>
+          </div>
+          <p class="rotating-line">Current creative mode: <strong id="rotatingPhrase">Wedding Storytelling</strong></p>
+        </div>
+
+        <aside class="hero-panel reveal">
+          <h2>Memory Value Pulse</h2>
+          <p>Pictures become emotional anchors over time, helping families relive the moments and people they love most.</p>
+          <ul class="pulse-feed" id="pulseFeed" aria-live="polite"></ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Coverage Snapshot</p>
+          <h2>Trusted coverage for weddings, celebrations, portraits, and high-energy live events.</h2>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card reveal">
+            <p class="stat-value" data-target="420" data-suffix="+">0</p>
+            <p class="stat-label">Events Captured</p>
+          </article>
+          <article class="stat-card reveal">
+            <p class="stat-value" data-target="37" data-suffix="+">0</p>
+            <p class="stat-label">Specialties Covered</p>
+          </article>
+          <article class="stat-card reveal">
+            <p class="stat-value" data-target="24" data-suffix="h">0</p>
+            <p class="stat-label">Average Hour Delivery</p>
+          </article>
+          <article class="stat-card reveal">
+            <p class="stat-value" data-target="98" data-suffix="%">0</p>
+            <p class="stat-label">Renewal Rate</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Interactive Spotlights</p>
+          <h2>Switch perspectives to preview different visual campaign styles.</h2>
+        </div>
+
+        <div class="spotlight-wrap reveal" id="spotlightWrap">
+          <button class="spotlight-nav" id="spotlightPrev" type="button" aria-label="Previous spotlight">&#8249;</button>
+          <article class="spotlight-card" id="spotlightCard">
+            <p class="spotlight-kicker" id="spotlightKicker">Weddings</p>
+            <h3 id="spotlightTitle">Signature Wedding Story Pack</h3>
+            <p id="spotlightDescription">Ceremony highlights, candid reception moments, and timeless portraits delivered in a cinematic gallery.</p>
+            <a class="btn btn-secondary" href="services.html">See Delivery System</a>
+          </article>
+          <button class="spotlight-nav" id="spotlightNext" type="button" aria-label="Next spotlight">&#8250;</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container cta-band reveal">
+        <div>
+          <p class="eyebrow">One Studio. Every Occasion.</p>
+          <h2>Need one creative partner for weddings, birthdays, family sessions, and community events?</h2>
+          <p>Use our multi-event plans to keep style consistent and turnaround fast across your entire calendar.</p>
+        </div>
+        <a class="btn btn-primary" href="book.html">Build Your Event Plan</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>EdgeFrame Photography Studio</p>
+      <div class="footer-toolbar" aria-label="Contact toolbar">
+        <a class="toolbar-icon toolbar-icon-light" href="tel:+13058989791" aria-label="Call Alyssa Sousa">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.1 11.1 0 0 0 3.49.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.1 11.1 0 0 0 .56 3.49 1 1 0 0 1-.24 1.01l-2.2 2.29z"/></svg>
+        </a>
+        <a class="toolbar-icon toolbar-icon-light" href="mailto:leoisdabest@yahoo.com" aria-label="Email Alyssa Sousa">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5zm2 .5v.38L12 11.2l7-4.82V6a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1m14 2.82-6.43 4.43a1 1 0 0 1-1.14 0L5 8.82V18a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/></svg>
+        </a>
+      </div>
+      <div class="footer-links">
+        <a href="gallery.html">Gallery</a>
+        <a href="services.html">Services</a>
+        <a href="results.html">Results</a>
+        <a href="book.html">Book</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="firebase/firebase-web-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
