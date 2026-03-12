@@ -1,6 +1,25 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isOwnerEmail() {
+      return isSignedIn()
+        && request.auth.token.email != null
+        && request.auth.token.email == "leoisdabest@yahoo.com";
+    }
+
+    function isAdmin() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/admin_users/$(request.auth.uid));
+    }
+
     function hasOnlyFields(fields) {
       return request.resource.data.keys().hasOnly(fields);
     }
@@ -39,7 +58,7 @@ service cloud.firestore {
         "createdAtServer"
       ])
       && text(request.resource.data.source, 1, 80)
-      && text(request.resource.data.page, 1, 40)
+      && text(request.resource.data.page, 1, 80)
       && text(request.resource.data.contactName, 1, 120)
       && text(request.resource.data.createdAtClient, 10, 60)
       && (request.resource.data.createdAtServer == null || request.resource.data.createdAtServer is timestamp);
@@ -60,10 +79,10 @@ service cloud.firestore {
         && text(request.resource.data.budgetRange, 3, 40)
         && optionalText(request.resource.data.message, 2000)
         && request.resource.data.needs is list
-        && request.resource.data.needs.size() <= 12
+        && request.resource.data.needs.size() <= 20
         && request.resource.data.preferredContact in ["phone", "email", "text"];
 
-      allow read, update, delete: if false;
+      allow read, update, delete: if isAdmin();
     }
 
     match /question_requests/{docId} {
@@ -80,10 +99,10 @@ service cloud.firestore {
         && request.resource.data.coverageHours <= 16
         && optionalText(request.resource.data.budgetRange, 40)
         && request.resource.data.needs is list
-        && request.resource.data.needs.size() <= 12
+        && request.resource.data.needs.size() <= 20
         && request.resource.data.preferredContact in ["phone", "email", "text"];
 
-      allow read, update, delete: if false;
+      allow read, update, delete: if isAdmin();
     }
 
     match /estimate_requests/{docId} {
@@ -109,12 +128,75 @@ service cloud.firestore {
         && text(request.resource.data.estimateText, 2, 40)
         && text(request.resource.data.availability, 2, 40)
         && text(request.resource.data.source, 1, 80)
-        && text(request.resource.data.page, 1, 40)
+        && text(request.resource.data.page, 1, 80)
         && text(request.resource.data.contactName, 1, 120)
         && text(request.resource.data.createdAtClient, 10, 60)
         && (request.resource.data.createdAtServer == null || request.resource.data.createdAtServer is timestamp);
 
-      allow read, update, delete: if false;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /page_views/{docId} {
+      allow create: if request.resource.data.keys().hasOnly([
+          "page",
+          "path",
+          "visitorId",
+          "referrer",
+          "userAgent",
+          "screen",
+          "createdAtClient",
+          "createdAtServer"
+        ])
+        && text(request.resource.data.page, 1, 80)
+        && text(request.resource.data.path, 1, 260)
+        && text(request.resource.data.visitorId, 8, 120)
+        && optionalText(request.resource.data.referrer, 260)
+        && optionalText(request.resource.data.userAgent, 320)
+        && text(request.resource.data.screen, 3, 20)
+        && text(request.resource.data.createdAtClient, 10, 60)
+        && (request.resource.data.createdAtServer == null || request.resource.data.createdAtServer is timestamp);
+
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /calendar_events/{docId} {
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly([
+          "title",
+          "date",
+          "startTime",
+          "endTime",
+          "location",
+          "notes",
+          "provider",
+          "createdBy",
+          "createdAtClient",
+          "createdAtServer"
+        ])
+        && text(request.resource.data.title, 2, 160)
+        && text(request.resource.data.date, 8, 16)
+        && optionalText(request.resource.data.startTime, 12)
+        && optionalText(request.resource.data.endTime, 12)
+        && optionalText(request.resource.data.location, 180)
+        && optionalText(request.resource.data.notes, 4000)
+        && request.resource.data.provider in ["google", "ics", "manual"]
+        && text(request.resource.data.createdBy, 3, 160)
+        && text(request.resource.data.createdAtClient, 10, 60)
+        && (request.resource.data.createdAtServer == null || request.resource.data.createdAtServer is timestamp);
+
+      allow read, delete: if isAdmin();
+    }
+
+    match /admin_users/{uid} {
+      allow read: if isAdmin() || isSelf(uid);
+
+      allow create: if isAdmin()
+        || (isSelf(uid)
+          && isOwnerEmail()
+          && request.resource.data.uid == request.auth.uid
+          && text(request.resource.data.email, 5, 140));
+
+      allow update, delete: if isAdmin();
     }
   }
 }

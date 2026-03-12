@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EdgeFrame Admin | Photo Editor</title>
+  <meta name="description" content="Hidden admin photo editor powered by Toast UI." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%231060ff'/%3E%3Cstop offset='1' stop-color='%231ab26b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='24' cy='24' r='22' fill='url(%23g)'/%3E%3Ctext x='24' y='30' font-size='18' font-family='Arial' fill='white' text-anchor='middle'%3EEF%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css" />
+  <link rel="stylesheet" href="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="./admin.css" />
+</head>
+<body data-page="admin" data-admin-section="editor" data-admin-view="photo-editor" class="accent-shift admin-auth-pending">
+  <header class="admin-header">
+    <div class="container admin-header-inner">
+      <a class="brand" href="../index.html" aria-label="EdgeFrame Home">
+        <span class="brand-mark">EF</span>
+        <span class="brand-text">EdgeFrame Admin</span>
+      </a>
+      <nav class="admin-top-nav" aria-label="Admin sections">
+        <a href="./index.html" data-admin-nav="home">Home</a>
+        <a href="./requests.html" data-admin-nav="requests">Requests</a>
+        <a href="./calendar.html" data-admin-nav="calendar">Calendar</a>
+        <a href="./traffic.html" data-admin-nav="traffic">Traffic</a>
+        <a href="./users.html" data-admin-nav="users">Users</a>
+        <a href="./photo_editor_alyssa.html" data-admin-nav="editor">Editor</a>
+      </nav>
+      <div class="admin-header-actions">
+        <span id="authStatusChip" class="status-chip">Logged Out</span>
+        <button class="btn btn-secondary" id="logoutBtn" type="button" hidden>Log Out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-main container">
+    <section class="admin-card" id="adminAlert" aria-live="polite"></section>
+
+    <section class="admin-card" id="loginCard">
+      <div class="admin-card-head">
+        <p class="eyebrow">Admin Login</p>
+        <h1>Secure Dashboard Access</h1>
+      </div>
+      <form id="loginForm" class="admin-form-grid">
+        <label>Username
+          <input id="loginUsername" name="username" type="text" autocomplete="username" required />
+        </label>
+        <label>Password
+          <input id="loginPassword" name="password" type="password" autocomplete="current-password" required />
+        </label>
+        <button class="btn btn-primary" id="loginButton" type="submit">Sign In</button>
+      </form>
+    </section>
+
+    <section id="dashboard" hidden>
+      <section class="admin-card photo-editor-shell photo-editor-shell-full">
+        <a class="editor-float-back btn btn-secondary" href="./index.html" aria-label="Back to admin home">Back</a>
+        <div class="photo-editor-canvas photo-editor-canvas-full">
+          <div id="tuiEditorRoot"></div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.js"></script>
+  <script src="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.js"></script>
+  <script src="../firebase/firebase-web-config.js?v=20260311"></script>
+  <script src="./admin.js?v=7"></script>
+  <script src="./photo-editor.js?v=7"></script>
+</body>
+</html>
+

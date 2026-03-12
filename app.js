@@ -77,6 +77,7 @@ function startPulseFeed(list, updates = LIVE_UPDATES, intervalMs = 2300) {
 }
 
 const LOCAL_SUBMISSION_KEY = "edgeframe-local-submissions";
+const VISITOR_KEY = "edgeframe-visitor-id";
 const DEFAULT_FIREBASE_CONFIG = {
   apiKey: "AIzaSyDA1soYGzIFjntBuv08hA9NXoSDNZ5pUrk",
   authDomain: "alyssa-c95c3.firebaseapp.com",
@@ -127,6 +128,22 @@ function setImageWithFallback(img, src, fallbackLabel) {
     img.dataset.fallbackApplied = "true";
     img.src = fallbackSrc;
   }, { once: true });
+}
+
+function getVisitorId() {
+  try {
+    const existing = localStorage.getItem(VISITOR_KEY);
+    if (existing) {
+      return existing;
+    }
+    const created = (window.crypto && typeof window.crypto.randomUUID === "function")
+      ? window.crypto.randomUUID()
+      : `visitor-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    localStorage.setItem(VISITOR_KEY, created);
+    return created;
+  } catch {
+    return `visitor-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  }
 }
 
 let firebaseChecked = false;
@@ -257,6 +274,32 @@ async function saveSubmission(collectionName, payload) {
   }
 }
 
+async function recordPageView() {
+  const db = getFirestoreDb();
+  if (!db) {
+    return;
+  }
+
+  const timestamp = window.firebase?.firestore?.FieldValue?.serverTimestamp;
+  const referrer = document.referrer ? String(document.referrer).slice(0, 260) : "";
+  const payload = {
+    page,
+    path: `${window.location.pathname || ""}${window.location.search || ""}`.slice(0, 260),
+    visitorId: getVisitorId(),
+    referrer,
+    userAgent: String(navigator.userAgent || "").slice(0, 320),
+    screen: `${window.screen?.width || 0}x${window.screen?.height || 0}`,
+    createdAtClient: new Date().toISOString(),
+    createdAtServer: timestamp ? timestamp() : null
+  };
+
+  try {
+    await db.collection("page_views").add(payload);
+  } catch (error) {
+    console.warn("Page view tracking skipped:", error?.message || error);
+  }
+}
+
 function initGlobal() {
   const header = byId("siteHeader");
   if (header) {
@@ -298,6 +341,7 @@ function initGlobal() {
     });
   }
 
+  void recordPageView();
   reveal();
 }
 function initSharedLiveBand() {

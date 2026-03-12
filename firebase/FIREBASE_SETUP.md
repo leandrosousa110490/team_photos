@@ -4,6 +4,9 @@ This app writes submissions to Firestore collections:
 - `quote_requests`
 - `question_requests`
 - `estimate_requests`
+- `page_views`
+- `calendar_events`
+- `admin_users`
 
 If Firebase is not configured correctly, the app falls back to local browser storage and shows a warning message.
 
@@ -37,7 +40,15 @@ In Firebase Console:
 2. Create database (Native mode)
 3. Choose your region
 
-## 3) Apply Firestore Rules
+## 3) Enable Firebase Authentication
+
+In Firebase Console:
+1. Build -> Authentication
+2. Get started
+3. Sign-in method -> enable **Email/Password**
+4. Add your owner login account (`leoisdabest@yahoo.com`) in Authentication -> Users
+
+## 4) Apply Firestore Rules
 
 Use rules from [firestore.rules](./firestore.rules) in this folder.
 
@@ -53,7 +64,7 @@ CLI method:
 4. Replace generated rules with `firebase/firestore.rules`
 5. Deploy: `firebase deploy --only firestore:rules`
 
-## 4) Verify Writes
+## 5) Verify Website Writes
 
 1. Open the site.
 2. Submit a Quote request.
@@ -64,12 +75,26 @@ CLI method:
 
 If the UI says "Saved on this device only", Firestore write is still blocked (config or rules issue).
 
-## 5) Common Issues
+## 6) Verify Admin Dashboard
+
+1. Open `/admin_alyssa` in your site URL.
+2. Sign in with your **username** and password.
+3. Confirm you can see:
+   - Quote and question requests
+   - Calendar events
+   - Site traffic
+   - Admin users
+4. First owner login auto-creates an `admin_users/{uid}` record.
+5. New users are created from username/password in the dashboard (email is generated internally for Firebase Auth).
+
+## 7) Common Issues
 
 - `REPLACE_WITH_...` values still in `firebase-web-config.js`
   - Fix by pasting real web app config.
 - Firestore not created yet
   - Create Firestore database in console.
+- Email/password login disabled
+  - Enable it in Authentication -> Sign-in method.
 - Rules are too strict or default deny
   - Publish the provided `firestore.rules`.
 - Wrong project
